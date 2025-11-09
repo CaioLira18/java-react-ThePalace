@@ -4,6 +4,9 @@ import './index.css'
 import './css/RouletteGame.css';
 import './css/Header.css';
 import './css/Login.css';
+import './css/Home.css';
+import './css/BlackjackGame.css';
+
 
 
 

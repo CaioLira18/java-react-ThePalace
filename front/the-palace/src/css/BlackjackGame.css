@@ -1,0 +1,482 @@
+/* ========== Container Principal ========== */
+.blackjack-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+  color: #fff;
+  padding: 20px;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* ========== Header ========== */
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.title {
+  font-size: 3em;
+  margin: 0;
+  background: linear-gradient(45deg, #ffd700 0%, #ffed4e 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: bold;
+}
+
+.subtitle {
+  color: #aaa;
+  font-size: 1.1em;
+  margin: 10px 0 0 0;
+}
+
+/* ========== Stats Grid ========== */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.stat-card {
+  padding: 20px;
+  border-radius: 15px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+}
+
+.stat-card.purple {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.stat-card.pink {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.stat-card.blue {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.stat-card.green {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+.stat-value {
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.stat-label {
+  opacity: 0.9;
+  font-size: 0.95em;
+}
+
+/* ========== Message Panel ========== */
+.message-panel {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+}
+
+.message-panel p {
+  margin: 0;
+  font-size: 1.3em;
+  line-height: 1.5;
+  color: #ffd700;
+  font-weight: 500;
+}
+
+/* ========== Game Area ========== */
+.game-area {
+  background: rgba(0, 100, 0, 0.3);
+  border-radius: 20px;
+  padding: 30px;
+  margin-bottom: 20px;
+  border: 3px solid rgba(255, 215, 0, 0.3);
+  min-height: 400px;
+}
+
+.dealer-section,
+.player-section {
+  margin-bottom: 30px;
+}
+
+.dealer-section h3,
+.player-section h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 1.5em;
+  color: #ffd700;
+}
+
+.hand {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  min-height: 140px;
+  align-items: center;
+}
+
+/* ========== Cards ========== */
+.card-wrapper {
+  animation: dealCard 0.3s ease-out;
+}
+
+@keyframes dealCard {
+  from {
+    transform: translateY(-50px) rotate(-10deg);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) rotate(0);
+    opacity: 1;
+  }
+}
+
+.card {
+  width: 100px;
+  height: 140px;
+  background: white;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px) scale(1.05);
+}
+
+.card.red {
+  color: #e74c3c;
+}
+
+.card.black {
+  color: #2c3e50;
+}
+
+.card-corner {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: bold;
+}
+
+.card-corner.top-left {
+  top: 8px;
+  left: 8px;
+}
+
+.card-corner.bottom-right {
+  bottom: 8px;
+  right: 8px;
+  transform: rotate(180deg);
+}
+
+.card-value {
+  font-size: 1.4em;
+  line-height: 1;
+}
+
+.card-suit {
+  font-size: 1.2em;
+  line-height: 1;
+}
+
+.card-center {
+  font-size: 4em;
+}
+
+.card-back {
+  background: linear-gradient(135deg, #c0392b 0%, #8e44ad 100%);
+  color: white;
+}
+
+.card-pattern {
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    rgba(255, 255, 255, 0.1) 10px,
+    rgba(255, 255, 255, 0.1) 20px
+  );
+  border-radius: 5px;
+}
+
+/* ========== Controls ========== */
+.controls-area {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.betting-controls,
+.game-controls {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.betting-controls label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.2em;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 15px 25px;
+  border-radius: 10px;
+}
+
+.betting-controls input {
+  width: 100px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.3);
+  color: #fff;
+  font-size: 1.1em;
+  text-align: center;
+}
+
+.action-btn {
+  padding: 15px 30px;
+  border-radius: 10px;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1.1em;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.action-btn.start {
+  background: linear-gradient(135deg, #51cf66, #37b24d);
+}
+
+.action-btn.hit {
+  background: linear-gradient(135deg, #4c6ef5, #364fc7);
+  flex: 1;
+  justify-content: center;
+  min-width: 200px;
+}
+
+.action-btn.stand {
+  background: linear-gradient(135deg, #f59f00, #e67700);
+  flex: 1;
+  justify-content: center;
+  min-width: 200px;
+}
+
+.action-btn.new-round {
+  background: linear-gradient(135deg, #7950f2, #5f3dc4);
+}
+
+.action-btn.reset {
+  background: linear-gradient(135deg, #868e96, #495057);
+  align-self: center;
+}
+
+/* ========== Stats Details ========== */
+.stats-details {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.stats-details h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #ffd700;
+}
+
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.stat-label-detail {
+  font-size: 1em;
+  color: #aaa;
+}
+
+.stat-value-detail {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.stat-value-detail.win {
+  color: #51cf66;
+}
+
+.stat-value-detail.loss {
+  color: #ff6b6b;
+}
+
+.stat-value-detail.push {
+  color: #ffd700;
+}
+
+.stat-value-detail.bust {
+  color: #ff6b6b;
+}
+
+/* ========== Chart ========== */
+.chart-container {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  padding: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 20px;
+}
+
+.chart-title {
+  margin-top: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.5em;
+  color: #ffd700;
+}
+
+.chart-canvas {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  background: #1a1a2e;
+  display: block;
+}
+
+.chart-legend {
+  margin-top: 15px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 10px;
+  font-size: 0.95em;
+  color: #aaa;
+  line-height: 1.6;
+}
+
+.chart-legend strong {
+  color: #fff;
+}
+
+/* ========== Explanation ========== */
+.explanation {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 15px;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.explanation h3 {
+  margin-top: 0;
+  color: #ffd700;
+}
+
+.explanation ul {
+  line-height: 1.8;
+  padding-left: 20px;
+}
+
+.explanation li {
+  margin-bottom: 10px;
+}
+
+.explanation strong {
+  color: #4facfe;
+}
+
+/* ========== Responsividade ========== */
+@media (max-width: 768px) {
+  .title {
+    font-size: 2em;
+  }
+
+  .game-area {
+    padding: 15px;
+  }
+
+  .hand {
+    gap: 5px;
+  }
+
+  .card {
+    width: 70px;
+    height: 98px;
+  }
+
+  .card-value {
+    font-size: 1em;
+  }
+
+  .card-center {
+    font-size: 2.5em;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .action-btn.hit,
+  .action-btn.stand {
+    min-width: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .betting-controls,
+  .game-controls {
+    flex-direction: column;
+  }
+
+  .action-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

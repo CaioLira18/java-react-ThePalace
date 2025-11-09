@@ -5,6 +5,11 @@
   align-items: center;
   justify-content: space-between;
   margin: 20px;
+  color: white;
+}
+
+.header .headerContainer img {
+  width: 150px;
 }
 
 .optionsHeader ul {
@@ -19,20 +24,27 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
   transition: 0.3s all ease-in-out;
   cursor: pointer;
+  gap: 20px;
 }
 
 .optionsHeader ul li a {
-  color: white;
   transition: 0.3s all ease-in-out;
+  color: white;
+}
+
+.optionsHeader ul li a:hover {
+  transition: 0.3s all ease-in-out;
+  color: rgb(0, 0, 0);
 }
 
 .optionIndividual:hover {
-  background-color: #877d6e;
-  padding: 10px;
+  background-color: #ffffff;
+  color: black;
+  padding: 12px;
   border-radius: 10px;
+
 }
 
 .imageLogoHeader {

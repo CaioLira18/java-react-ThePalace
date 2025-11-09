@@ -62,7 +62,7 @@ const Header = () => {
       <div className="header">
         <div className="headerContainer">
           <div className="imageLogoHeader">
-            <img src="" alt="" />
+            <img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1762710678/Untitled-1_sz4xt4.png" alt="Logo" />
           </div>
           <div className="optionsHeader">
             <ul>
@@ -74,12 +74,6 @@ const Header = () => {
                 <div className="optionIndividual">
                   <i className="fa-solid fa-user"></i>
                   <li><a href="/login">Login</a></li>
-                </div>
-              )}
-              {!isAuthenticated && (
-                <div className="optionIndividual">
-                  <i className="fa-solid fa-user"></i>
-                  <li><a href="/roulettegame">Roleta</a></li>
                 </div>
               )}
               {isAuthenticated && (

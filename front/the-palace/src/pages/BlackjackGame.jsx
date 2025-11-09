@@ -361,10 +361,7 @@ const BlackjackGame = () => {
 
   return (
     <div className="blackjack-container">
-      <div className="header">
-        <h1 className="title">THE PALACE - BLACKJACK</h1>
-        <p className="subtitle">Jogue e Aprenda Probabilidade Condicional</p>
-      </div>
+      
 
       <div className="stats-grid">
         <div className="stat-card purple">

@@ -1,7 +1,7 @@
 /* ========== Container Principal ========== */
 .blackjack-container {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+  width: 90vh;
+  margin: 0 auto;
   color: #fff;
   padding: 20px;
   font-family: system-ui, -apple-system, sans-serif;

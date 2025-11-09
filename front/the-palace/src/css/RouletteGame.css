@@ -1,0 +1,563 @@
+/* ========== Container Principal ========== */
+.roulette-container {
+  width: 90vh;
+  margin: 0 auto;
+  color: #fff;
+  padding: 20px;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* ========== Header ========== */
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.title {
+  font-size: 3em;
+  margin: 0;
+  background: linear-gradient(45deg, #f093fb 0%, #f5576c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: bold;
+}
+
+.subtitle {
+  color: #888;
+  font-size: 1.1em;
+  margin: 10px 0 0 0;
+}
+
+/* ========== Message Panel ========== */
+.message-panel {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+}
+
+.message-panel p {
+  margin: 0;
+  font-size: 1.2em;
+  line-height: 1.5;
+  color: #fff;
+}
+
+/* ========== Controles ========== */
+.controls {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.control-btn {
+  padding: 15px 30px;
+  border-radius: 10px;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1.1em;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+}
+
+.control-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.control-btn.start {
+  background: #51cf66;
+}
+
+.control-btn.pause {
+  background: #ff6b6b;
+}
+
+.control-btn.reset {
+  background: #4c6ef5;
+}
+
+.speed-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 10px 20px;
+  border-radius: 10px;
+}
+
+.speed-slider {
+  width: 100px;
+  cursor: pointer;
+}
+
+/* ========== Stats Grid ========== */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.stat-card {
+  padding: 20px;
+  border-radius: 15px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+}
+
+.stat-card.purple {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.stat-card.pink {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.stat-card.blue {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.stat-card.green {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+.stat-value {
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.stat-label {
+  opacity: 0.9;
+  font-size: 0.95em;
+}
+
+/* ========== Gráfico ========== */
+.chart-container {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  padding: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.chart-title {
+  margin-top: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.5em;
+}
+
+.chart-canvas {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  background: #1a1a2e;
+  display: block;
+}
+
+.chart-legend {
+  margin-top: 15px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 10px;
+  font-size: 0.95em;
+  color: #aaa;
+  line-height: 1.6;
+}
+
+.chart-legend strong {
+  color: #fff;
+}
+
+/* ========== Mesa de Apostas ========== */
+.betting-area {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  padding: 25px;
+  margin-bottom: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.betting-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.betting-header h2 {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bet-controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.bet-controls label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.1em;
+}
+
+.bet-controls input {
+  width: 80px;
+  padding: 8px;
+  border-radius: 5px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.3);
+  color: #fff;
+  font-size: 1em;
+  text-align: center;
+}
+
+/* Apostas Rápidas */
+.quick-bets {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.quick-bet {
+  flex: 1;
+  min-width: 150px;
+  padding: 12px 20px;
+  border-radius: 10px;
+  border: none;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1em;
+}
+
+.quick-bet:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.quick-bet:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.quick-bet.red {
+  background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
+}
+
+.quick-bet.black {
+  background: linear-gradient(135deg, #2d3436, #495057);
+}
+
+.quick-bet.green {
+  background: linear-gradient(135deg, #51cf66, #37b24d);
+}
+
+.quick-bet.clear {
+  background: linear-gradient(135deg, #868e96, #adb5bd);
+}
+
+/* Grade de Números */
+.number-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.number-btn {
+  aspect-ratio: 1;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  color: #fff;
+  font-size: 1.2em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.number-btn:hover:not(:disabled) {
+  transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+.number-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.number-btn.red {
+  background: linear-gradient(135deg, #ff6b6b, #c92a2a);
+}
+
+.number-btn.black {
+  background: linear-gradient(135deg, #2d3436, #000000);
+}
+
+.number-btn.green {
+  background: linear-gradient(135deg, #51cf66, #2f9e44);
+}
+
+.number-btn.selected {
+  border-color: #ffd700;
+  box-shadow: 0 0 20px #ffd700;
+  animation: pulse 1s infinite;
+}
+
+.number-btn.last-result {
+  border-color: #00f2fe;
+  box-shadow: 0 0 30px #00f2fe;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 0 20px #ffd700;
+  }
+  50% {
+    box-shadow: 0 0 40px #ffd700;
+  }
+}
+
+/* Informação de Seleção */
+.selection-info {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  line-height: 1.8;
+  border-left: 4px solid #ffffff;
+}
+
+.selection-info strong {
+  color: #ffffff;
+}
+
+/* Botões de Ação */
+.spin-button {
+  width: 100%;
+  padding: 20px;
+  border-radius: 15px;
+  border: none;
+  background: linear-gradient(135deg, #51cf66, #37b24d);
+  color: #fff;
+  font-size: 1.5em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+.spin-button:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(81, 207, 102, 0.4);
+}
+
+.spin-button:disabled {
+  background: linear-gradient(135deg, #868e96, #495057);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.reset-button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.reset-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Histórico */
+.history-panel {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.history-panel h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.history-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+.history-item {
+  padding: 15px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  transition: transform 0.2s ease;
+}
+
+.history-item:hover {
+  transform: translateX(5px);
+}
+
+.history-item.win {
+  background: rgba(81, 207, 102, 0.2);
+  border: 2px solid rgba(81, 207, 102, 0.5);
+}
+
+.history-item.lose {
+  background: rgba(255, 107, 107, 0.2);
+  border: 2px solid rgba(255, 107, 107, 0.5);
+}
+
+.history-result {
+  flex-shrink: 0;
+}
+
+.result-number {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3em;
+  font-weight: bold;
+  color: #fff;
+}
+
+.result-number.red {
+  background: linear-gradient(135deg, #ff6b6b, #c92a2a);
+}
+
+.result-number.black {
+  background: linear-gradient(135deg, #2d3436, #000000);
+}
+
+.result-number.green {
+  background: linear-gradient(135deg, #51cf66, #2f9e44);
+}
+
+.history-details {
+  flex: 1;
+  font-size: 0.9em;
+}
+
+.profit-positive {
+  color: #51cf66;
+  font-weight: bold;
+}
+
+.profit-negative {
+  color: #ff6b6b;
+  font-weight: bold;
+}
+
+/* ========== Explicação ========== */
+.explanation {
+  margin-top: 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 15px;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.explanation h3 {
+  margin-top: 0;
+  color: #ffffff;
+}
+
+.explanation ul {
+  line-height: 1.8;
+  padding-left: 20px;
+}
+
+.explanation li {
+  margin-bottom: 10px;
+}
+
+.explanation strong {
+  color: #ffffff;
+}
+
+/* ========== Responsividade ========== */
+@media (max-width: 768px) {
+  .title {
+    font-size: 2em;
+  }
+  
+  .dealer-panel {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .controls {
+    flex-direction: column;
+  }
+  
+  .control-btn {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .chart-legend {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .dealer-buttons {
+    flex-direction: column;
+  }
+  
+  .dealer-btn {
+    width: 100%;
+  }
+}

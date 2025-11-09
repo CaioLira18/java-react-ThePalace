@@ -1,0 +1,87 @@
+.login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+    width: 600px;
+    height: auto;
+    padding-bottom: 20px;
+    border-radius: 10px;
+    border: 1px solid white;
+    background-color: rgb(89, 70, 38);
+    margin: 0 auto;
+}
+
+.loginContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.loginInput h1 {
+    font-size: 20px;
+}
+
+.loginInput input, select {
+    width: 400px;
+    height: 40px;
+    margin-top: 10px;
+    border-radius: 10px;
+    background-color: white;
+    border: none;
+    color: black;
+    padding-left: 10px;
+    border: 2px solid gray;
+}
+
+.buttonLogin button {
+    width: 400px;
+    height: 40px;
+    border-radius: 10px;
+    border: none;
+    background-color: rgb(40, 27, 10);
+    cursor: pointer;
+    transition: 0.3s all ease-in-out;
+}
+
+.buttonLogin button:hover {
+    background-color: rgb(146, 125, 99);
+}
+
+.boxCabecalho {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.imageLogin {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+.imageLogin img {
+    width: 150px;
+}
+
+.informationsLogin {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.withoutAccount p a {
+    color: rgb(241, 196, 157);
+}

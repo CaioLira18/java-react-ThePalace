@@ -1,0 +1,46 @@
+/* Header */
+
+.headerContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20px;
+}
+
+.optionsHeader ul {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  font-size: 18px;
+}
+
+.optionIndividual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: 0.3s all ease-in-out;
+  cursor: pointer;
+}
+
+.optionsHeader ul li a {
+  color: white;
+  transition: 0.3s all ease-in-out;
+}
+
+.optionIndividual:hover {
+  background-color: #877d6e;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.imageLogoHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.imageLogoHeader img {
+  width: 200px;
+}

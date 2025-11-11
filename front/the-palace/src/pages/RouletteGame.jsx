@@ -1,6 +1,39 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Play, RotateCcw, TrendingUp, Coins, Target } from 'lucide-react';
 
+/**
+ * Retorna o multiplicador de pagamento e o texto de exibição para a roleta.
+ * O multiplicador é o *retorno total* (aposta + lucro).
+ * @param {number} numSelected - O número de casas selecionadas.
+ * @returns {{multiplier: number, text: string}}
+ */
+const getPayoutInfo = (numSelected) => {
+  switch (numSelected) {
+    case 0:
+      return { multiplier: 0, text: 'N/A' };
+    case 1: // Pleno (Straight Up)
+      return { multiplier: 36, text: '35:1 (35x)' };
+    case 2: // Cavalo (Split)
+      return { multiplier: 18, text: '17:1 (17x)' };
+    case 3: // Rua (Street)
+      return { multiplier: 12, text: '11:1 (11x)' };
+    case 4: // Canto (Corner)
+      return { multiplier: 9, text: '8:1 (8x)' };
+    case 6: // Linha (Six Line)
+      return { multiplier: 6, text: '5:1 (5x)' };
+    case 12: // Dúzia/Coluna (Dozen/Column)
+      return { multiplier: 3, text: '2:1 (2x)' };
+    case 18: // Vermelho/Preto, Par/Ímpar, 1-18/19-36
+      return { multiplier: 2, text: '1:1 (1x)' };
+    default:
+      // Regra de fallback para apostas não-padrão (ex: 5, 7, etc.)
+      // O casino geralmente arredonda para baixo, pagando o menor prêmio possível.
+      const multiplier = Math.floor(36 / numSelected);
+      return { multiplier: multiplier, text: `${multiplier - 1}:1 (Aposta não-padrão)` };
+  }
+};
+
+
 const RouletteGame = () => {
   const [selectedNumbers, setSelectedNumbers] = useState([]);
   const [betAmount, setBetAmount] = useState(10);
@@ -77,12 +110,16 @@ const RouletteGame = () => {
 
       const won = selectedNumbers.includes(result);
       let winAmount = 0;
+      let profit = 0;
       
       if (won) {
-        const payout = selectedNumbers.length === 1 ? 36 : 
-                      selectedNumbers.length <= 18 ? 2 : 
-                      Math.floor(37 / selectedNumbers.length);
-        winAmount = betAmount * payout;
+        // *** LÓGICA DE PAGAMENTO CORRIGIDA ***
+        // Pega o multiplicador de retorno total (aposta + lucro)
+        const { multiplier } = getPayoutInfo(selectedNumbers.length);
+        
+        winAmount = betAmount * multiplier; // Este é o retorno *total*
+        profit = winAmount - betAmount; // Este é o *lucro*
+        
         setBalance(prev => prev + winAmount);
       }
 
@@ -91,13 +128,14 @@ const RouletteGame = () => {
         selected: selectedNumbers,
         bet: betAmount,
         won: won,
-        profit: won ? winAmount - betAmount : -betAmount,
+        profit: won ? profit : -betAmount, // Armazena o lucro ou a perda
         timestamp: Date.now()
       }, ...prev.slice(0, 9)]);
 
       const color = getNumberColor(result);
       if (won) {
-        setMessage(`Resultado: ${result} (${color}). Você ganhou ${winAmount} fichas.`);
+        // Mensagem de vitória mais clara
+        setMessage(`Resultado: ${result} (${color}). Você lucrou ${profit} fichas (total recebido: ${winAmount}).`);
       } else {
         setMessage(`Resultado: ${result} (${color}). Você perdeu ${betAmount} fichas.`);
       }
@@ -116,7 +154,8 @@ const RouletteGame = () => {
       chi += Math.pow(observed - expected, 2) / expected;
     });
     
-    const p = chi < 36 ? 1 - (chi / 72) : 0.01;
+    // Aproximação simples do p-valor, não é estatisticamente rigorosa mas serve para o jogo
+    const p = chi < 36 ? 1 - (chi / 72) : 0.01; 
     return { chi: chi.toFixed(2), p: Math.max(0, Math.min(1, p)).toFixed(3) };
   };
 
@@ -126,7 +165,7 @@ const RouletteGame = () => {
       setChiSquare(stats.chi);
       setPValue(stats.p);
     }
-  }, [totalSpins]);
+  }, [totalSpins, results]); // Adicionado 'results' como dependência
 
   const handleReset = () => {
     setSelectedNumbers([]);
@@ -282,11 +321,7 @@ const RouletteGame = () => {
             <br />
             <strong>Probabilidade teórica de ganho:</strong> {((selectedNumbers.length / 37) * 100).toFixed(2)}%
             <br />
-            <strong>Pagamento potencial:</strong> {
-              selectedNumbers.length === 1 ? '36:1 (35x lucro)' :
-              selectedNumbers.length <= 18 ? '2:1 (1x lucro)' :
-              `${Math.floor(37/selectedNumbers.length)}:1`
-            }
+            <strong>Pagamento potencial:</strong> { getPayoutInfo(selectedNumbers.length).text }
           </div>
         )}
 
@@ -351,7 +386,7 @@ const RouletteGame = () => {
           <li><strong>Probabilidade Teórica:</strong> Cada número tem 1/37 = 2.7% de chance. Vermelho e Preto têm 18/37 = 48.6%</li>
           <li><strong>Lei dos Grandes Números:</strong> Quanto mais você joga, mais a distribuição empírica se aproxima da teórica</li>
           <li><strong>Teste Chi-Quadrado:</strong> Valores baixos indicam que os resultados estão seguindo a distribuição esperada</li>
-          <li><strong>Pagamentos:</strong> Número único paga 36:1, múltiplos números pagam proporcionalmente menos</li>
+          <li><strong>Pagamentos:</strong> Os pagamentos seguem as regras padrão (ex: Pleno paga 35:1, Dúzia paga 2:1)</li>
         </ul>
       </div>
     </div>

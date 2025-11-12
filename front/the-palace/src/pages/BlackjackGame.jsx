@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Play, RotateCcw, TrendingUp, Coins, Shuffle } from 'lucide-react';
+import { Play, RotateCcw, TrendingUp, Coins, Shuffle, Calculator, BarChart3 } from 'lucide-react';
 
 const BlackjackGame = () => {
   const [balance, setBalance] = useState(1000);
@@ -23,6 +23,12 @@ const BlackjackGame = () => {
   
   // Histórico de resultados
   const [results, setResults] = useState({ win: 0, loss: 0, push: 0 });
+  
+  // Estados para probabilidades
+  const [probabilityType, setProbabilityType] = useState('exponencial');
+  const [winProbBeforeCard, setWinProbBeforeCard] = useState(0);
+  const [winProbAfterCard, setWinProbAfterCard] = useState(0);
+  const [bustProbability, setBustProbability] = useState(0);
   
   const canvasRef = useRef(null);
 
@@ -49,6 +55,199 @@ const BlackjackGame = () => {
     
     return newDeck;
   };
+
+  // Calcular cartas restantes no deck
+  const getRemainingCards = () => {
+    const remaining = { 
+      total: deck.length,
+      values: { A: 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, J: 0, Q: 0, K: 0 }
+    };
+    
+    deck.forEach(card => {
+      remaining.values[card.value]++;
+    });
+    
+    return remaining;
+  };
+
+  // Calcular probabilidade de estouro (bust)
+  const calculateBustProbability = (currentTotal) => {
+    if (currentTotal >= 21) return currentTotal > 21 ? 1 : 0;
+    
+    const remaining = getRemainingCards();
+    const totalCards = remaining.total;
+    
+    if (totalCards === 0) return 0;
+    
+    let bustCards = 0;
+    
+    // Contar cartas que causariam estouro
+    Object.entries(remaining.values).forEach(([value, count]) => {
+      let cardValue = value === 'A' ? 1 : ['J', 'Q', 'K'].includes(value) ? 10 : parseInt(value);
+      if (currentTotal + cardValue > 21) {
+        bustCards += count;
+      }
+    });
+    
+    return bustCards / totalCards;
+  };
+
+  // Calcular probabilidades usando distribuição exponencial
+  const calculateExponentialProbability = (currentTotal, dealerUpCard) => {
+    // Usar a carta do dealer para ajustar λ
+    let dealerValue = 10; // assumir carta alta se não tiver
+    if (dealerUpCard) {
+      dealerValue = dealerUpCard.value === 'A' ? 11 : 
+                   ['J', 'Q', 'K'].includes(dealerUpCard.value) ? 10 : 
+                   parseInt(dealerUpCard.value);
+    }
+    
+    // λ baseado na vantagem relativa (mais alto = melhor posição)
+    const advantage = (currentTotal - dealerValue) / 21;
+    const lambda = 0.15 + Math.abs(advantage) * 0.05;
+    const x = Math.max(0, (21 - currentTotal)) / 10; // distância normalizada até 21
+    
+    // P(Vitória) = 1 - e^(-λx) para posição boa, e^(-λx) para posição ruim
+    let winProb;
+    if (currentTotal > dealerValue) {
+      winProb = 1 - Math.exp(-lambda * x);
+    } else {
+      winProb = Math.exp(-lambda * x * 2);
+    }
+    
+    return Math.min(Math.max(winProb, 0.05), 0.95);
+  };
+
+  // Calcular probabilidades usando distribuição contínua (normal)
+  const calculateContinuousProbability = (currentTotal, dealerUpCard) => {
+    // Parâmetros da distribuição normal
+    const optimalTotal = 20; // valor ótimo próximo a 21
+    const mean = 18.5;
+    const stdDev = 2.5;
+    
+    // Valor da carta do dealer
+    let dealerValue = 10;
+    if (dealerUpCard) {
+      dealerValue = dealerUpCard.value === 'A' ? 11 : 
+                   ['J', 'Q', 'K'].includes(dealerUpCard.value) ? 10 : 
+                   parseInt(dealerUpCard.value);
+    }
+    
+    // Score normalizado baseado na posição relativa
+    const playerScore = Math.min(currentTotal, 21);
+    const z = (playerScore - mean) / stdDev;
+    
+    // Função de distribuição cumulativa normal (aproximação)
+    const cdf = 0.5 * (1 + erf(z / Math.sqrt(2)));
+    
+    // Ajustar baseado na carta do dealer
+    let winProb = cdf;
+    if (dealerValue >= 7) {
+      winProb *= 0.9; // dealer tem carta boa, reduz chances
+    } else {
+      winProb *= 1.1; // dealer tem carta ruim, aumenta chances
+    }
+    
+    return Math.min(Math.max(winProb, 0.05), 0.95);
+  };
+  
+  // Função de erro (aproximação para CDF normal)
+  const erf = (x) => {
+    const a1 = 0.254829592;
+    const a2 = -0.284496736;
+    const a3 = 1.421413741;
+    const a4 = -1.453152027;
+    const a5 = 1.061405429;
+    const p = 0.3275911;
+    
+    const sign = x >= 0 ? 1 : -1;
+    x = Math.abs(x);
+    
+    const t = 1.0 / (1.0 + p * x);
+    const y = 1.0 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-x * x);
+    
+    return sign * y;
+  };
+
+  // Calcular probabilidades usando distribuição hipergeométrica
+  const calculateHypergeometricProbability = (currentTotal, dealerUpCard) => {
+    const remaining = getRemainingCards();
+    const N = remaining.total; // população total
+    
+    if (N === 0) return 0.5;
+    
+    // Definir "sucessos" baseado na situação atual
+    let target = 21 - currentTotal; // pontos necessários para chegar em 21
+    let favorableCards = 0;
+    
+    // Contar cartas favoráveis (que nos levam mais perto da vitória)
+    Object.entries(remaining.values).forEach(([value, count]) => {
+      let cardValue = value === 'A' ? 
+        (currentTotal <= 10 ? 11 : 1) : 
+        ['J', 'Q', 'K'].includes(value) ? 10 : parseInt(value);
+      
+      // Carta é favorável se:
+      // 1. Nos leva para 21 exato
+      // 2. Nos mantém abaixo de 21 e melhora nossa posição
+      // 3. Não causa bust
+      if (currentTotal + cardValue === 21) {
+        favorableCards += count * 3; // peso extra para blackjack
+      } else if (currentTotal + cardValue < 21 && currentTotal + cardValue >= 17) {
+        favorableCards += count * 2; // peso para posição boa
+      } else if (currentTotal + cardValue < 21) {
+        favorableCards += count; // peso normal
+      }
+    });
+    
+    // Calcular probabilidade hipergeométrica
+    // P(sucesso) = favorableCards / totalCards
+    const successRate = favorableCards / (N * 2); // normalizar pesos
+    
+    // Ajustar baseado na carta do dealer
+    let dealerValue = 10;
+    if (dealerUpCard) {
+      dealerValue = dealerUpCard.value === 'A' ? 11 : 
+                   ['J', 'Q', 'K'].includes(dealerUpCard.value) ? 10 : 
+                   parseInt(dealerUpCard.value);
+    }
+    
+    let winProb = successRate;
+    if (dealerValue <= 6) {
+      winProb *= 1.2; // dealer tem carta ruim
+    } else if (dealerValue >= 10) {
+      winProb *= 0.8; // dealer tem carta boa
+    }
+    
+    return Math.min(Math.max(winProb, 0.05), 0.95);
+  };
+
+  // Calcular probabilidade baseada no tipo selecionado
+  const calculateWinProbability = (currentTotal, dealerUpCard = null) => {
+    switch (probabilityType) {
+      case 'exponencial':
+        return calculateExponentialProbability(currentTotal, dealerUpCard);
+      case 'continua':
+        return calculateContinuousProbability(currentTotal, dealerUpCard);
+      case 'hipergeometrica':
+        return calculateHypergeometricProbability(currentTotal, dealerUpCard);
+      default:
+        return 0.5;
+    }
+  };
+
+  // Atualizar probabilidades em tempo real
+  useEffect(() => {
+    if (gameState === 'playing') {
+      const dealerUp = dealerHand.length > 0 ? dealerHand[0] : null;
+      const beforeCard = calculateWinProbability(playerTotal, dealerUp);
+      const bust = calculateBustProbability(playerTotal);
+      
+      setWinProbBeforeCard(beforeCard);
+      setBustProbability(bust);
+      // limpar o valor "após a carta" até que o jogador realmente compre
+      setWinProbAfterCard(0);
+    }
+  }, [playerTotal, dealerHand, gameState, probabilityType, deck]);
 
   // Inicializar deck
   useEffect(() => {
@@ -104,6 +303,11 @@ const BlackjackGame = () => {
     setGameState('playing');
     setHideDealerCard(true);
     setMessage('Sua vez. Comprar ou Parar?');
+    
+    // Reset probabilidades
+    setWinProbBeforeCard(0);
+    setWinProbAfterCard(0);
+    setBustProbability(0);
 
     // Distribuir cartas
     const newDeck = [...deck];
@@ -146,6 +350,12 @@ const BlackjackGame = () => {
     setDeck(newDeck);
 
     const newTotal = calculateHandValue(newPlayerHand);
+    
+    // Calcular probabilidade após puxar a carta
+    const dealerUp = dealerHand.length > 0 ? dealerHand[0] : null;
+    const afterCard = calculateWinProbability(newTotal, dealerUp);
+    setWinProbAfterCard(afterCard);
+    
     if (newTotal > 21) {
       setBusts(prev => prev + 1);
       endGame('bust', `Estourou com ${newTotal}. Você perdeu.`);
@@ -231,6 +441,11 @@ const BlackjackGame = () => {
     setGameState('betting');
     setHideDealerCard(true);
     setMessage('Faça sua aposta e clique em Iniciar.');
+    
+    // Reset probabilidades
+    setWinProbBeforeCard(0);
+    setWinProbAfterCard(0);
+    setBustProbability(0);
   };
 
   // Resetar jogo
@@ -248,6 +463,11 @@ const BlackjackGame = () => {
     setBusts(0);
     setResults({ win: 0, loss: 0, push: 0 });
     setDeck(createDeck());
+    
+    // Reset probabilidades
+    setWinProbBeforeCard(0);
+    setWinProbAfterCard(0);
+    setBustProbability(0);
   };
 
   // Renderizar carta
@@ -359,154 +579,270 @@ const BlackjackGame = () => {
 
   }, [results, totalGames]);
 
+  // Renderizar fórmulas matemáticas
+  const renderFormula = () => {
+    let dealerValue = 10;
+    if (dealerHand.length > 0) {
+      dealerValue = dealerHand[0].value === 'A' ? 11 : 
+                   ['J', 'Q', 'K'].includes(dealerHand[0].value) ? 10 : 
+                   parseInt(dealerHand[0].value);
+    }
+
+    switch (probabilityType) {
+      case 'exponencial':
+        const advantage = (playerTotal - dealerValue) / 21;
+        const lambda = (0.15 + Math.abs(advantage) * 0.05).toFixed(3);
+        const x = (Math.max(0, (21 - playerTotal)) / 10).toFixed(3);
+        
+        return (
+          <div className="formula-display">
+            <h4>Distribuição Exponencial</h4>
+            <div className="formula">P(Vitória) = {playerTotal > dealerValue ? '1 - e^(-λx)' : 'e^(-2λx)'}</div>
+            <div className="parameters">
+              <div>Vantagem = ({playerTotal} - {dealerValue}) / 21 = {advantage.toFixed(3)}</div>
+              <div>λ = 0.15 + |{advantage.toFixed(3)}| × 0.05 = {lambda}</div>
+              <div>x = max(0, 21 - {playerTotal}) / 10 = {x}</div>
+              <div>Posição: {playerTotal > dealerValue ? 'Boa (fórmula crescente)' : 'Ruim (fórmula decrescente)'}</div>
+              <div className="result-highlight">P(Vitória) = {(winProbBeforeCard * 100).toFixed(2)}%</div>
+            </div>
+          </div>
+        );
+
+      case 'continua':
+        const mean = 18.5;
+        const stdDev = 2.5;
+        const z = ((Math.min(playerTotal, 21) - mean) / stdDev).toFixed(3);
+        const adjustment = dealerValue >= 7 ? '× 0.9 (dealer forte)' : '× 1.1 (dealer fraco)';
+
+        return (
+          <div className="formula-display">
+            <h4>Distribuição Normal (Contínua)</h4>
+            <div className="formula">Φ(z) = ∫(-∞ to z) (1/√(2π)) × e^(-t²/2) dt</div>
+            <div className="parameters">
+              <div>μ (média) = {mean}</div>
+              <div>σ (desvio) = {stdDev}</div>
+              <div>X (score) = min({playerTotal}, 21) = {Math.min(playerTotal, 21)}</div>
+              <div>Z = ({Math.min(playerTotal, 21)} - {mean}) / {stdDev} = {z}</div>
+              <div>Φ(Z) = CDF normal em Z = {((0.5 * (1 + erf(parseFloat(z) / Math.sqrt(2)))).toFixed(3))}</div>
+              <div>Ajuste dealer: {adjustment}</div>
+              <div className="result-highlight">P(Vitória) = {(winProbBeforeCard * 100).toFixed(2)}%</div>
+            </div>
+          </div>
+        );
+
+      case 'hipergeometrica':
+        const remaining = getRemainingCards();
+        const N = remaining.total;
+        
+        // Recalcular cartas favoráveis para mostrar na fórmula
+        let favorableCards = 0;
+        let exactCards = 0, goodCards = 0, okCards = 0;
+        
+        Object.entries(remaining.values).forEach(([value, count]) => {
+          let cardValue = value === 'A' ? 
+            (playerTotal <= 10 ? 11 : 1) : 
+            ['J', 'Q', 'K'].includes(value) ? 10 : parseInt(value);
+          
+          if (playerTotal + cardValue === 21) {
+            exactCards += count;
+            favorableCards += count * 3;
+          } else if (playerTotal + cardValue < 21 && playerTotal + cardValue >= 17) {
+            goodCards += count;
+            favorableCards += count * 2;
+          } else if (playerTotal + cardValue < 21) {
+            okCards += count;
+            favorableCards += count;
+          }
+        });
+
+        return (
+          <div className="formula-display">
+            <h4>Distribuição Hipergeométrica</h4>
+            <div className="formula">P(Sucesso) = Cartas_Favoráveis_Ponderadas / (N × 2)</div>
+            <div className="parameters">
+              <div>N (população) = {N} cartas restantes</div>
+              <div>Cartas para 21 exato = {exactCards} (peso 3)</div>
+              <div>Cartas para 17-20 = {goodCards} (peso 2)</div>
+              <div>Cartas para &lt;17 = {okCards} (peso 1)</div>
+              <div>Total ponderado = {exactCards}×3 + {goodCards}×2 + {okCards}×1 = {favorableCards}</div>
+              <div>Taxa base = {favorableCards} / ({N} × 2) = {(favorableCards / (N * 2)).toFixed(3)}</div>
+              <div>Ajuste dealer ({dealerValue}): {dealerValue <= 6 ? '× 1.2 (fraco)' : dealerValue >= 10 ? '× 0.8 (forte)' : '× 1.0 (neutro)'}</div>
+              <div className="result-highlight">P(Vitória) = {(winProbBeforeCard * 100).toFixed(2)}%</div>
+            </div>
+          </div>
+        );
+
+      default:
+        return null;
+    }
+  };
+
   return (
-    <div className="blackjack-container">
-      
+    <div className="blackjack-split-container">
+      {/* LADO ESQUERDO - JOGO */}
+      <div className="game-side">
+        <div className="stats-grid">
+          <div className="stat-card purple">
+            <div className="stat-value"><Coins size={24} /> {balance}</div>
+            <div className="stat-label">Saldo (fichas)</div>
+          </div>
 
-      <div className="stats-grid">
-        <div className="stat-card purple">
-          <div className="stat-value"><Coins size={24} /> {balance}</div>
-          <div className="stat-label">Saldo (fichas)</div>
-        </div>
+          <div className="stat-card pink">
+            <div className="stat-value">{totalGames}</div>
+            <div className="stat-label">Jogos</div>
+          </div>
 
-        <div className="stat-card pink">
-          <div className="stat-value">{totalGames}</div>
-          <div className="stat-label">Jogos</div>
-        </div>
+          <div className="stat-card blue">
+            <div className="stat-value">{winRate}%</div>
+            <div className="stat-label">Taxa de Vitória</div>
+          </div>
 
-        <div className="stat-card blue">
-          <div className="stat-value">{winRate}%</div>
-          <div className="stat-label">Taxa de Vitória</div>
-        </div>
-
-        <div className="stat-card green">
-          <div className="stat-value">{blackjacks}</div>
-          <div className="stat-label">Blackjacks</div>
-        </div>
-      </div>
-
-      <div className="message-panel">
-        <p>{message}</p>
-      </div>
-
-      <div className="game-area">
-        <div className="dealer-section">
-          <h3>Dealer {!hideDealerCard && `(${dealerTotal})`}</h3>
-          <div className="hand">
-            {dealerHand.map((card, i) => (
-              <div key={i} className="card-wrapper">
-                {renderCard(card, i === 1 && hideDealerCard)}
-              </div>
-            ))}
+          <div className="stat-card green">
+            <div className="stat-value">{blackjacks}</div>
+            <div className="stat-label">Blackjacks</div>
           </div>
         </div>
 
-        <div className="player-section">
-          <h3>Você ({playerTotal})</h3>
-          <div className="hand">
-            {playerHand.map((card, i) => (
-              <div key={i} className="card-wrapper">
-                {renderCard(card)}
-              </div>
-            ))}
+        <div className="message-panel">
+          <p>{message}</p>
+        </div>
+
+        <div className="game-area">
+          <div className="dealer-section">
+            <h3>Dealer {!hideDealerCard && `(${dealerTotal})`}</h3>
+            <div className="hand">
+              {dealerHand.map((card, i) => (
+                <div key={i} className="card-wrapper">
+                  {renderCard(card, i === 1 && hideDealerCard)}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="player-section">
+            <h3>Você ({playerTotal})</h3>
+            <div className="hand">
+              {playerHand.map((card, i) => (
+                <div key={i} className="card-wrapper">
+                  {renderCard(card)}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="controls-area">
-        {gameState === 'betting' && (
-          <div className="betting-controls">
-            <label>
-              Aposta:
-              <input
-                type="number"
-                min="1"
-                max={balance}
-                value={betAmount}
-                onChange={(e) => setBetAmount(Math.max(1, parseInt(e.target.value) || 1))}
-              />
-              fichas
-            </label>
-            <button onClick={startGame} className="action-btn start">
-              <Play size={20} /> Iniciar Jogo
-            </button>
-          </div>
-        )}
+        <div className="controls-area">
+          {gameState === 'betting' && (
+            <div className="betting-controls">
+              <label>
+                Aposta:
+                <input
+                  type="number"
+                  min="1"
+                  max={balance}
+                  value={betAmount}
+                  onChange={(e) => setBetAmount(Math.max(1, parseInt(e.target.value) || 1))}
+                />
+                fichas
+              </label>
+              <button onClick={startGame} className="action-btn start">
+                <Play size={20} /> Iniciar Jogo
+              </button>
+            </div>
+          )}
 
-        {gameState === 'playing' && (
-          <div className="game-controls">
-            <button onClick={hit} className="action-btn hit">
-              Comprar Carta
-            </button>
-            <button onClick={stand} className="action-btn stand">
-              Parar
-            </button>
-          </div>
-        )}
+          {gameState === 'playing' && (
+            <div className="game-controls">
+              <button onClick={hit} className="action-btn hit">
+                Comprar Carta
+              </button>
+              <button onClick={stand} className="action-btn stand">
+                Parar
+              </button>
+            </div>
+          )}
 
-        {gameState === 'finished' && (
-          <div className="game-controls">
-            <button onClick={newRound} className="action-btn new-round">
-              <Shuffle size={20} /> Nova Rodada
-            </button>
-          </div>
-        )}
+          {gameState === 'finished' && (
+            <div className="game-controls">
+              <button onClick={newRound} className="action-btn new-round">
+                <Shuffle size={20} /> Nova Rodada
+              </button>
+            </div>
+          )}
 
-        <button onClick={resetGame} className="action-btn reset">
-          <RotateCcw size={20} /> Resetar Jogo
-        </button>
-      </div>
-
-      <div className="stats-details">
-        <h3>Estatísticas Detalhadas</h3>
-        <div className="stats-row">
-          <div className="stat-item">
-            <span className="stat-label-detail">Vitórias:</span>
-            <span className="stat-value-detail win">{wins}</span>
-          </div>
-          <div className="stat-item">
-            <span className="stat-label-detail">Derrotas:</span>
-            <span className="stat-value-detail loss">{losses}</span>
-          </div>
-          <div className="stat-item">
-            <span className="stat-label-detail">Empates:</span>
-            <span className="stat-value-detail push">{pushes}</span>
-          </div>
-          <div className="stat-item">
-            <span className="stat-label-detail">Estouros:</span>
-            <span className="stat-value-detail bust">{busts}</span>
-          </div>
+          <button onClick={resetGame} className="action-btn reset">
+            <RotateCcw size={20} /> Resetar Jogo
+          </button>
         </div>
       </div>
 
-      <div className="chart-container">
-        <h2 className="chart-title">
-          <TrendingUp /> Distribuição de Resultados (Empírico vs Teórico)
-        </h2>
-        <canvas
-          ref={canvasRef}
-          width={1000}
-          height={400}
-          className="chart-canvas"
-        />
-        <div className="chart-legend">
-          <div><strong>Barras:</strong> Frequência empírica de cada resultado</div>
-          <div><strong>Linha tracejada rosa:</strong> Taxa teórica de vitória (49.5%)</div>
-          <div><strong>Vantagem da casa:</strong> O dealer tem aproximadamente 0.5% de vantagem usando estratégia básica</div>
+      {/* LADO DIREITO - PROBABILIDADES */}
+      <div className="probability-side">
+        <div className="probability-header">
+          <h2><Calculator size={24} /> Análise Probabilística</h2>
+          <div className="probability-controls">
+            <label>Modelo:</label>
+            <select 
+              value={probabilityType} 
+              onChange={(e) => setProbabilityType(e.target.value)}
+            >
+              <option value="exponencial">Exponencial</option>
+              <option value="continua">Contínua (Normal)</option>
+              <option value="hipergeometrica">Hipergeométrica</option>
+            </select>
+          </div>
         </div>
-      </div>
 
-      <div className="explanation">
-        <h3>Como Funciona</h3>
-        <ul>
-          <li><strong>Objetivo:</strong> Chegar mais perto de 21 que o dealer sem estourar</li>
-          <li><strong>Valores:</strong> Ás = 1 ou 11, Figuras = 10, outros = valor nominal</li>
-          <li><strong>Blackjack:</strong> 21 com duas cartas (Ás + 10/Figura) paga 1.5x</li>
-          <li><strong>Regras do Dealer:</strong> Deve comprar até 17, depois deve parar</li>
-          <li><strong>Probabilidade:</strong> O dealer tem pequena vantagem (~0.5%) porque você joga primeiro e pode estourar</li>
-          <li><strong>Estratégia Básica:</strong> Comprar com 11 ou menos, parar com 17 ou mais. Entre 12-16 depende da carta visível do dealer</li>
-          <li><strong>Contagem de Cartas:</strong> Este jogo usa 6 baralhos, tornando a contagem menos efetiva</li>
-        </ul>
+        {renderFormula()}
+
+        <div className="probability-results">
+          <h3>Probabilidades em Tempo Real</h3>
+          
+          <div className="prob-card">
+            <div className="prob-label">Antes da próxima carta:</div>
+            <div className="prob-value win">{(winProbBeforeCard * 100).toFixed(2)}%</div>
+            <div className="prob-desc">Chance de vitória atual</div>
+          </div>
+
+          {winProbAfterCard > 0 && (
+            <div className="prob-card">
+              <div className="prob-label">Após última carta:</div>
+              <div className="prob-value after">{(winProbAfterCard * 100).toFixed(2)}%</div>
+              <div className="prob-desc">Chance após comprar</div>
+            </div>
+          )}
+
+          <div className="prob-card">
+            <div className="prob-label">Probabilidade de Estouro:</div>
+            <div className="prob-value bust">{(bustProbability * 100).toFixed(2)}%</div>
+            <div className="prob-desc">Chance de ultrapassar 21</div>
+          </div>
+
+          <div className="deck-info">
+            <h4>Informações do Deck</h4>
+            <div className="deck-stats">
+              <div>Cartas restantes: {deck.length}</div>
+              <div>Cartas altas (≥10): {Object.entries(getRemainingCards().values).reduce((acc, [value, count]) => {
+                let cardValue = value === 'A' ? 11 : ['J', 'Q', 'K'].includes(value) ? 10 : parseInt(value);
+                return acc + (cardValue >= 10 ? count : 0);
+              }, 0)}</div>
+              <div>Cartas baixas (≤6): {Object.entries(getRemainingCards().values).reduce((acc, [value, count]) => {
+                let cardValue = value === 'A' ? 1 : ['J', 'Q', 'K'].includes(value) ? 10 : parseInt(value);
+                return acc + (cardValue <= 6 ? count : 0);
+              }, 0)}</div>
+            </div>
+          </div>
+        </div>
+
+        <div className="probability-chart">
+          <h3><BarChart3 size={20} /> Distribuição Histórica</h3>
+          <canvas
+            ref={canvasRef}
+            width={400}
+            height={200}
+            className="chart-canvas-small"
+          />
+        </div>
       </div>
     </div>
   );

@@ -16,7 +16,7 @@
 .title {
   font-size: 3em;
   margin: 0;
-  background: linear-gradient(45deg, #f093fb 0%, #f5576c 100%);
+  background: linear-gradient(45deg, #646cff 0%, #8b5cf6 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -31,11 +31,11 @@
 
 /* ========== Message Panel ========== */
 .message-panel {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(100, 108, 255, 0.1);
   border-radius: 15px;
   padding: 20px;
   margin-bottom: 20px;
-  border: 2px solid rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(100, 108, 255, 0.3);
   text-align: center;
 }
 
@@ -75,22 +75,22 @@
 }
 
 .control-btn.start {
-  background: #51cf66;
+  background: #16a34a;
 }
 
 .control-btn.pause {
-  background: #ff6b6b;
+  background: #dc2626;
 }
 
 .control-btn.reset {
-  background: #4c6ef5;
+  background: #646cff;
 }
 
 .speed-control {
   display: flex;
   align-items: center;
   gap: 10px;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(100, 108, 255, 0.1);
   padding: 10px 20px;
   border-radius: 10px;
 }
@@ -102,7 +102,7 @@
 
 /* ========== Stats Grid ========== */
 .stats-grid {
-  display: grid;
+  display: flex;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 15px;
   margin-bottom: 20px;
@@ -113,45 +113,58 @@
   border-radius: 15px;
   text-align: center;
   transition: transform 0.3s ease;
+  background: rgba(100, 108, 255, 0.15);
+  border: 2px solid rgba(100, 108, 255, 0.3);
 }
 
 .stat-card:hover {
   transform: translateY(-5px);
+  background: rgba(100, 108, 255, 0.25);
+  border-color: rgba(100, 108, 255, 0.5);
 }
 
 .stat-card.purple {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: rgba(100, 108, 255, 0.15);
+  border-color: rgba(100, 108, 255, 0.3);
 }
 
 .stat-card.pink {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  background: rgba(139, 92, 246, 0.15);
+  border-color: rgba(139, 92, 246, 0.3);
 }
 
 .stat-card.blue {
-  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  background: rgba(59, 130, 246, 0.15);
+  border-color: rgba(59, 130, 246, 0.3);
 }
 
 .stat-card.green {
-  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  background: rgba(34, 197, 94, 0.15);
+  border-color: rgba(34, 197, 94, 0.3);
 }
 
 .stat-value {
   font-size: 2em;
   font-weight: bold;
   margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .stat-label {
-  opacity: 0.9;
+  opacity: 0.8;
   font-size: 0.95em;
+  color: #cbd5e1;
 }
 
 /* ========== Gráfico ========== */
 .chart-container {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(100, 108, 255, 0.1);
   border-radius: 15px;
   padding: 20px;
-  border: 2px solid rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(100, 108, 255, 0.3);
 }
 
 .chart-title {
@@ -186,11 +199,11 @@
 
 /* ========== Mesa de Apostas ========== */
 .betting-area {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(100, 108, 255, 0.1);
   border-radius: 15px;
   padding: 25px;
   margin-bottom: 20px;
-  border: 2px solid rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(100, 108, 255, 0.3);
 }
 
 .betting-header {
@@ -226,7 +239,7 @@
   width: 80px;
   padding: 8px;
   border-radius: 5px;
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(100, 108, 255, 0.3);
   background: rgba(0, 0, 0, 0.3);
   color: #fff;
   font-size: 1em;
@@ -265,19 +278,39 @@
 }
 
 .quick-bet.red {
-  background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
+  background: #dc2626;
+  border: 2px solid #b91c1c;
+}
+
+.quick-bet.red:hover:not(:disabled) {
+  background: #b91c1c;
 }
 
 .quick-bet.black {
-  background: linear-gradient(135deg, #2d3436, #495057);
+  background: #1f2937;
+  border: 2px solid #374151;
+}
+
+.quick-bet.black:hover:not(:disabled) {
+  background: #374151;
 }
 
 .quick-bet.green {
-  background: linear-gradient(135deg, #51cf66, #37b24d);
+  background: #16a34a;
+  border: 2px solid #15803d;
+}
+
+.quick-bet.green:hover:not(:disabled) {
+  background: #15803d;
 }
 
 .quick-bet.clear {
-  background: linear-gradient(135deg, #868e96, #adb5bd);
+  background: rgba(100, 108, 255, 0.2);
+  border: 2px solid rgba(100, 108, 255, 0.4);
+}
+
+.quick-bet.clear:hover:not(:disabled) {
+  background: rgba(100, 108, 255, 0.3);
 }
 
 /* Grade de Números */
@@ -311,15 +344,18 @@
 }
 
 .number-btn.red {
-  background: linear-gradient(135deg, #ff6b6b, #c92a2a);
+  background: #dc2626;
+  border: 2px solid #7f1d1d;
 }
 
 .number-btn.black {
-  background: linear-gradient(135deg, #2d3436, #000000);
+  background: #1f2937;
+  border: 2px solid #111827;
 }
 
 .number-btn.green {
-  background: linear-gradient(135deg, #51cf66, #2f9e44);
+  background: #16a34a;
+  border: 2px solid #14532d;
 }
 
 .number-btn.selected {
@@ -329,8 +365,8 @@
 }
 
 .number-btn.last-result {
-  border-color: #00f2fe;
-  box-shadow: 0 0 30px #00f2fe;
+  border-color: #646cff;
+  box-shadow: 0 0 30px #646cff;
 }
 
 @keyframes pulse {
@@ -344,12 +380,12 @@
 
 /* Informação de Seleção */
 .selection-info {
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(100, 108, 255, 0.1);
   padding: 15px;
   border-radius: 10px;
   margin-bottom: 20px;
   line-height: 1.8;
-  border-left: 4px solid #ffffff;
+  border-left: 4px solid #646cff;
 }
 
 .selection-info strong {
@@ -361,8 +397,8 @@
   width: 100%;
   padding: 20px;
   border-radius: 15px;
-  border: none;
-  background: linear-gradient(135deg, #51cf66, #37b24d);
+  border: 2px solid #15803d;
+  background: #16a34a;
   color: #fff;
   font-size: 1.5em;
   font-weight: bold;
@@ -377,11 +413,13 @@
 
 .spin-button:hover:not(:disabled) {
   transform: translateY(-3px);
-  box-shadow: 0 10px 30px rgba(81, 207, 102, 0.4);
+  background: #15803d;
+  box-shadow: 0 10px 30px rgba(22, 163, 74, 0.3);
 }
 
 .spin-button:disabled {
-  background: linear-gradient(135deg, #868e96, #495057);
+  background: #374151;
+  border-color: #1f2937;
   cursor: not-allowed;
   opacity: 0.6;
 }
@@ -390,8 +428,8 @@
   width: 100%;
   padding: 12px;
   border-radius: 10px;
-  border: none;
-  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(100, 108, 255, 0.3);
+  background: rgba(100, 108, 255, 0.1);
   color: #fff;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -402,16 +440,17 @@
 }
 
 .reset-button:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(100, 108, 255, 0.2);
+  border-color: rgba(100, 108, 255, 0.5);
 }
 
 /* Histórico */
 .history-panel {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(100, 108, 255, 0.1);
   border-radius: 15px;
   padding: 20px;
   margin-bottom: 20px;
-  border: 2px solid rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(100, 108, 255, 0.3);
 }
 
 .history-panel h3 {
@@ -439,13 +478,13 @@
 }
 
 .history-item.win {
-  background: rgba(81, 207, 102, 0.2);
-  border: 2px solid rgba(81, 207, 102, 0.5);
+  background: rgba(34, 197, 94, 0.2);
+  border: 2px solid rgba(34, 197, 94, 0.5);
 }
 
 .history-item.lose {
-  background: rgba(255, 107, 107, 0.2);
-  border: 2px solid rgba(255, 107, 107, 0.5);
+  background: rgba(220, 38, 38, 0.2);
+  border: 2px solid rgba(220, 38, 38, 0.5);
 }
 
 .history-result {
@@ -466,15 +505,15 @@
 }
 
 .result-number.red {
-  background: linear-gradient(135deg, #ff6b6b, #c92a2a);
+  background: #dc2626;
 }
 
 .result-number.black {
-  background: linear-gradient(135deg, #2d3436, #000000);
+  background: #1f2937;
 }
 
 .result-number.green {
-  background: linear-gradient(135deg, #51cf66, #2f9e44);
+  background: #16a34a;
 }
 
 .history-details {
@@ -483,22 +522,22 @@
 }
 
 .profit-positive {
-  color: #51cf66;
+  color: #22c55e;
   font-weight: bold;
 }
 
 .profit-negative {
-  color: #ff6b6b;
+  color: #ef4444;
   font-weight: bold;
 }
 
 /* ========== Explicação ========== */
 .explanation {
   margin-top: 20px;
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(100, 108, 255, 0.05);
   border-radius: 15px;
   padding: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(100, 108, 255, 0.2);
 }
 
 .explanation h3 {

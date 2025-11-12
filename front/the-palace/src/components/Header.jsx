@@ -64,32 +64,6 @@ const Header = () => {
           <div className="imageLogoHeader">
             <img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1762710678/Untitled-1_sz4xt4.png" alt="Logo" />
           </div>
-          <div className="optionsHeader">
-            <ul>
-              <div className="optionIndividual">
-                <i className="fa-solid fa-house"></i>
-                <li><a href="/">Home</a></li>
-              </div>
-              {!isAuthenticated && (
-                <div className="optionIndividual">
-                  <i className="fa-solid fa-user"></i>
-                  <li><a href="/login">Login</a></li>
-                </div>
-              )}
-              {isAuthenticated && (
-                <div className="optionIndividual">
-                  <i className="fa-solid fa-user"></i>
-                  <li><a href="/edit">{name}</a></li>
-                </div>
-              )}
-              {isAuthenticated && (
-                <div className="optionIndividual">
-                  <i className="fa-solid fa-arrow-right-from-bracket"></i>
-                  <li><a onClick={handleLogOut} style={{ cursor: 'pointer' }}>Sair</a></li>
-                </div>
-              )}
-            </ul>
-          </div>
         </div>
       </div>
     </div>

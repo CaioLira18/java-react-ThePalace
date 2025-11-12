@@ -16,7 +16,7 @@
 .title {
   font-size: 3em;
   margin: 0;
-  background: linear-gradient(45deg, #ffd700 0%, #ffed4e 100%);
+  background: linear-gradient(45deg, #646cff 0%, #8b5cf6 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -24,7 +24,7 @@
 }
 
 .subtitle {
-  color: #aaa;
+  color: #888;
   font-size: 1.1em;
   margin: 10px 0 0 0;
 }
@@ -42,26 +42,34 @@
   border-radius: 15px;
   text-align: center;
   transition: transform 0.3s ease;
+  background: rgba(100, 108, 255, 0.15);
+  border: 2px solid rgba(100, 108, 255, 0.3);
 }
 
 .stat-card:hover {
   transform: translateY(-5px);
+  background: rgba(100, 108, 255, 0.25);
+  border-color: rgba(100, 108, 255, 0.5);
 }
 
 .stat-card.purple {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: rgba(100, 108, 255, 0.15);
+  border-color: rgba(100, 108, 255, 0.3);
 }
 
 .stat-card.pink {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  background: rgba(139, 92, 246, 0.15);
+  border-color: rgba(139, 92, 246, 0.3);
 }
 
 .stat-card.blue {
-  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  background: rgba(59, 130, 246, 0.15);
+  border-color: rgba(59, 130, 246, 0.3);
 }
 
 .stat-card.green {
-  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  background: rgba(34, 197, 94, 0.15);
+  border-color: rgba(34, 197, 94, 0.3);
 }
 
 .stat-value {
@@ -75,17 +83,18 @@
 }
 
 .stat-label {
-  opacity: 0.9;
+  opacity: 0.8;
   font-size: 0.95em;
+  color: #cbd5e1;
 }
 
 /* ========== Message Panel ========== */
 .message-panel {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(100, 108, 255, 0.1);
   border-radius: 15px;
   padding: 20px;
   margin-bottom: 20px;
-  border: 2px solid rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(100, 108, 255, 0.3);
   text-align: center;
 }
 
@@ -93,17 +102,17 @@
   margin: 0;
   font-size: 1.3em;
   line-height: 1.5;
-  color: #ffd700;
+  color: #ffffff;
   font-weight: 500;
 }
 
 /* ========== Game Area ========== */
 .game-area {
-  background: rgba(0, 100, 0, 0.3);
+  background: rgba(21, 128, 61, 0.2);
   border-radius: 20px;
   padding: 30px;
   margin-bottom: 20px;
-  border: 3px solid rgba(255, 215, 0, 0.3);
+  border: 3px solid rgba(34, 197, 94, 0.3);
   min-height: 400px;
 }
 
@@ -117,7 +126,7 @@
   margin-top: 0;
   margin-bottom: 15px;
   font-size: 1.5em;
-  color: #ffd700;
+  color: #ffffff;
 }
 
 .hand {
@@ -164,11 +173,11 @@
 }
 
 .card.red {
-  color: #e74c3c;
+  color: #dc2626;
 }
 
 .card.black {
-  color: #2c3e50;
+  color: #1f2937;
 }
 
 .card-corner {
@@ -205,7 +214,7 @@
 }
 
 .card-back {
-  background: linear-gradient(135deg, #c0392b 0%, #8e44ad 100%);
+  background: linear-gradient(135deg, #7c2d12 0%, #7e22ce 100%);
   color: white;
 }
 
@@ -244,16 +253,17 @@
   align-items: center;
   gap: 10px;
   font-size: 1.2em;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(100, 108, 255, 0.1);
   padding: 15px 25px;
   border-radius: 10px;
+  border: 2px solid rgba(100, 108, 255, 0.3);
 }
 
 .betting-controls input {
   width: 100px;
   padding: 10px;
   border-radius: 5px;
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(100, 108, 255, 0.3);
   background: rgba(0, 0, 0, 0.3);
   color: #fff;
   font-size: 1.1em;
@@ -263,7 +273,7 @@
 .action-btn {
   padding: 15px 30px;
   border-radius: 10px;
-  border: none;
+  border: 2px solid transparent;
   color: #fff;
   cursor: pointer;
   font-size: 1.1em;
@@ -280,45 +290,71 @@
 }
 
 .action-btn.start {
-  background: linear-gradient(135deg, #51cf66, #37b24d);
+  background: #16a34a;
+  border-color: #15803d;
+}
+
+.action-btn.start:hover {
+  background: #15803d;
 }
 
 .action-btn.hit {
-  background: linear-gradient(135deg, #4c6ef5, #364fc7);
+  background: #3b82f6;
+  border-color: #2563eb;
   flex: 1;
   justify-content: center;
   min-width: 200px;
+}
+
+.action-btn.hit:hover {
+  background: #2563eb;
 }
 
 .action-btn.stand {
-  background: linear-gradient(135deg, #f59f00, #e67700);
+  background: #f59e0b;
+  border-color: #d97706;
   flex: 1;
   justify-content: center;
   min-width: 200px;
 }
 
+.action-btn.stand:hover {
+  background: #d97706;
+}
+
 .action-btn.new-round {
-  background: linear-gradient(135deg, #7950f2, #5f3dc4);
+  background: #8b5cf6;
+  border-color: #7c3aed;
+}
+
+.action-btn.new-round:hover {
+  background: #7c3aed;
 }
 
 .action-btn.reset {
-  background: linear-gradient(135deg, #868e96, #495057);
+  background: rgba(100, 108, 255, 0.2);
+  border-color: rgba(100, 108, 255, 0.4);
   align-self: center;
+}
+
+.action-btn.reset:hover {
+  background: rgba(100, 108, 255, 0.3);
+  border-color: rgba(100, 108, 255, 0.6);
 }
 
 /* ========== Stats Details ========== */
 .stats-details {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(100, 108, 255, 0.1);
   border-radius: 15px;
   padding: 20px;
   margin-bottom: 20px;
-  border: 2px solid rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(100, 108, 255, 0.3);
 }
 
 .stats-details h3 {
   margin-top: 0;
   margin-bottom: 15px;
-  color: #ffd700;
+  color: #ffffff;
 }
 
 .stats-row {
@@ -334,11 +370,12 @@
   background: rgba(0, 0, 0, 0.3);
   padding: 15px;
   border-radius: 10px;
+  border: 1px solid rgba(100, 108, 255, 0.2);
 }
 
 .stat-label-detail {
   font-size: 1em;
-  color: #aaa;
+  color: #94a3b8;
 }
 
 .stat-value-detail {
@@ -347,27 +384,27 @@
 }
 
 .stat-value-detail.win {
-  color: #51cf66;
+  color: #22c55e;
 }
 
 .stat-value-detail.loss {
-  color: #ff6b6b;
+  color: #ef4444;
 }
 
 .stat-value-detail.push {
-  color: #ffd700;
+  color: #ffffff;
 }
 
 .stat-value-detail.bust {
-  color: #ff6b6b;
+  color: #ef4444;
 }
 
 /* ========== Chart ========== */
 .chart-container {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(100, 108, 255, 0.1);
   border-radius: 15px;
   padding: 20px;
-  border: 2px solid rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(100, 108, 255, 0.3);
   margin-bottom: 20px;
 }
 
@@ -377,7 +414,7 @@
   align-items: center;
   gap: 10px;
   font-size: 1.5em;
-  color: #ffd700;
+  color: #ffffff;
 }
 
 .chart-canvas {
@@ -394,7 +431,7 @@
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 10px;
   font-size: 0.95em;
-  color: #aaa;
+  color: #94a3b8;
   line-height: 1.6;
 }
 
@@ -404,15 +441,15 @@
 
 /* ========== Explanation ========== */
 .explanation {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(100, 108, 255, 0.05);
   border-radius: 15px;
   padding: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(100, 108, 255, 0.2);
 }
 
 .explanation h3 {
   margin-top: 0;
-  color: #ffd700;
+  color: #ffffff;
 }
 
 .explanation ul {
@@ -425,7 +462,256 @@
 }
 
 .explanation strong {
-  color: #4facfe;
+  color: #60a5fa;
+}
+
+/* ========== Layout Split Screen ========== */
+.blackjack-split-container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  color: #fff;
+  font-family: system-ui, -apple-system, sans-serif;
+  position: relative;
+}
+
+.game-side {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  border-right: 2px solid rgba(100, 108, 255, 0.3);
+  position: relative;
+}
+
+.game-side::after {
+  content: "JOGO";
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.3);
+  font-weight: bold;
+}
+
+.probability-side {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  background: linear-gradient(135deg, #0f3460 0%, #1a1a2e 100%);
+  position: relative;
+}
+
+.probability-side::after {
+  content: "ANÁLISE";
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.3);
+  font-weight: bold;
+}
+
+/* ========== Painel de Probabilidades ========== */
+.probability-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid rgba(100, 108, 255, 0.3);
+}
+
+.probability-header h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  color: #ffffff;
+}
+
+.probability-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.probability-controls label {
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.probability-controls select {
+  background: #1a1a2e;
+  color: #fff;
+  border: 1px solid rgba(100, 108, 255, 0.3);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 14px;
+}
+
+.probability-controls select:focus {
+  outline: none;
+  border-color: #646cff;
+}
+
+/* ========== Display de Fórmulas ========== */
+.formula-display {
+  background: linear-gradient(135deg, #16213e 0%, #1a1a2e 100%);
+  border: 1px solid rgba(100, 108, 255, 0.3);
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 25px;
+}
+
+.formula-display h4 {
+  color: #ffffff;
+  margin: 0 0 15px 0;
+  font-size: 1.2em;
+}
+
+.formula {
+  font-family: 'Courier New', monospace;
+  font-size: 1.1em;
+  background: rgba(100, 108, 255, 0.15);
+  padding: 10px 15px;
+  border-radius: 8px;
+  text-align: center;
+  color: #22c55e;
+  margin-bottom: 15px;
+  border-left: 4px solid #fbbf24;
+}
+
+.parameters {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.parameters div {
+  padding: 8px 12px;
+  background: rgba(100, 108, 255, 0.1);
+  border-radius: 5px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9em;
+  color: #cbd5e1;
+  border: 1px solid rgba(100, 108, 255, 0.2);
+}
+
+.parameters .result-highlight {
+  background: rgba(251, 191, 36, 0.2);
+  border-left: 3px solid #fbbf24;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 1em;
+}
+
+/* ========== Resultados de Probabilidade ========== */
+.probability-results {
+  margin-bottom: 25px;
+}
+
+.probability-results h3 {
+  color: #ffffff;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.prob-card {
+  background: linear-gradient(135deg, #16213e 0%, #1a1a2e 100%);
+  border: 1px solid rgba(100, 108, 255, 0.3);
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 15px;
+  transition: transform 0.3s ease;
+}
+
+.prob-card:hover {
+  transform: translateX(5px);
+  border-color: #646cff;
+}
+
+.prob-label {
+  color: #94a3b8;
+  font-size: 0.9em;
+  margin-bottom: 5px;
+}
+
+.prob-value {
+  font-size: 1.8em;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.prob-value.win {
+  color: #22c55e;
+}
+
+.prob-value.after {
+  color: #60a5fa;
+}
+
+.prob-value.bust {
+  color: #ef4444;
+}
+
+.prob-desc {
+  color: #64748b;
+  font-size: 0.8em;
+}
+
+/* ========== Informações do Deck ========== */
+.deck-info {
+  background: linear-gradient(135deg, #16213e 0%, #1a1a2e 100%);
+  border: 1px solid rgba(100, 108, 255, 0.3);
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 25px;
+}
+
+.deck-info h4 {
+  color: #ffffff;
+  margin: 0 0 12px 0;
+}
+
+.deck-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.deck-stats div {
+  padding: 6px 10px;
+  background: rgba(100, 108, 255, 0.1);
+  border-radius: 5px;
+  font-size: 0.9em;
+  border: 1px solid rgba(100, 108, 255, 0.2);
+}
+
+/* ========== Gráfico Pequeno ========== */
+.probability-chart {
+  background: linear-gradient(135deg, #16213e 0%, #1a1a2e 100%);
+  border: 1px solid rgba(100, 108, 255, 0.3);
+  border-radius: 12px;
+  padding: 15px;
+}
+
+.probability-chart h3 {
+  color: #ffffff;
+  margin: 0 0 15px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.1em;
+}
+
+.chart-canvas-small {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  background: #1a1a2e;
 }
 
 /* ========== Responsividade ========== */
@@ -481,253 +767,6 @@
   }
 }
 
-/* ========== Layout Split Screen ========== */
-.blackjack-split-container {
-  display: flex;
-  height: 100vh;
-  width: 100%;
-  color: #fff;
-  font-family: system-ui, -apple-system, sans-serif;
-  position: relative;
-}
-
-.game-side {
-  flex: 1;
-  padding: 20px;
-  overflow-y: auto;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-  border-right: 2px solid #0f3460;
-  position: relative;
-}
-
-.game-side::after {
-  content: "JOGO";
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.3);
-  font-weight: bold;
-}
-
-.probability-side {
-  flex: 1;
-  padding: 20px;
-  overflow-y: auto;
-  background: linear-gradient(135deg, #0f3460 0%, #1a1a2e 100%);
-  position: relative;
-}
-
-.probability-side::after {
-  content: "ANÁLISE";
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.3);
-  font-weight: bold;
-}
-
-/* ========== Painel de Probabilidades ========== */
-.probability-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 25px;
-  padding-bottom: 15px;
-  border-bottom: 2px solid #0f3460;
-}
-
-.probability-header h2 {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 0;
-  color: #ffd700;
-}
-
-.probability-controls {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.probability-controls label {
-  color: #aaa;
-  font-weight: 500;
-}
-
-.probability-controls select {
-  background: #1a1a2e;
-  color: #fff;
-  border: 1px solid #0f3460;
-  border-radius: 8px;
-  padding: 8px 12px;
-  font-size: 14px;
-}
-
-.probability-controls select:focus {
-  outline: none;
-  border-color: #ffd700;
-}
-
-/* ========== Display de Fórmulas ========== */
-.formula-display {
-  background: linear-gradient(135deg, #16213e 0%, #1a1a2e 100%);
-  border: 1px solid #0f3460;
-  border-radius: 15px;
-  padding: 20px;
-  margin-bottom: 25px;
-}
-
-.formula-display h4 {
-  color: #ffd700;
-  margin: 0 0 15px 0;
-  font-size: 1.2em;
-}
-
-.formula {
-  font-family: 'Courier New', monospace;
-  font-size: 1.1em;
-  background: #0f3460;
-  padding: 10px 15px;
-  border-radius: 8px;
-  text-align: center;
-  color: #51cf66;
-  margin-bottom: 15px;
-  border-left: 4px solid #ffd700;
-}
-
-.parameters {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.parameters div {
-  padding: 8px 12px;
-  background: rgba(15, 52, 96, 0.3);
-  border-radius: 5px;
-  font-family: 'Courier New', monospace;
-  font-size: 0.9em;
-  color: #ddd;
-}
-
-.parameters .result-highlight {
-  background: rgba(255, 215, 0, 0.2);
-  border-left: 3px solid #ffd700;
-  color: #ffd700;
-  font-weight: bold;
-  font-size: 1em;
-}
-
-/* ========== Resultados de Probabilidade ========== */
-.probability-results {
-  margin-bottom: 25px;
-}
-
-.probability-results h3 {
-  color: #ffd700;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.prob-card {
-  background: linear-gradient(135deg, #16213e 0%, #1a1a2e 100%);
-  border: 1px solid #0f3460;
-  border-radius: 12px;
-  padding: 15px;
-  margin-bottom: 15px;
-  transition: transform 0.3s ease;
-}
-
-.prob-card:hover {
-  transform: translateX(5px);
-  border-color: #ffd700;
-}
-
-.prob-label {
-  color: #aaa;
-  font-size: 0.9em;
-  margin-bottom: 5px;
-}
-
-.prob-value {
-  font-size: 1.8em;
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-
-.prob-value.win {
-  color: #51cf66;
-}
-
-.prob-value.after {
-  color: #74c0fc;
-}
-
-.prob-value.bust {
-  color: #ff6b6b;
-}
-
-.prob-desc {
-  color: #888;
-  font-size: 0.8em;
-}
-
-/* ========== Informações do Deck ========== */
-.deck-info {
-  background: linear-gradient(135deg, #16213e 0%, #1a1a2e 100%);
-  border: 1px solid #0f3460;
-  border-radius: 12px;
-  padding: 15px;
-  margin-bottom: 25px;
-}
-
-.deck-info h4 {
-  color: #ffd700;
-  margin: 0 0 12px 0;
-}
-
-.deck-stats {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.deck-stats div {
-  padding: 6px 10px;
-  background: rgba(15, 52, 96, 0.3);
-  border-radius: 5px;
-  font-size: 0.9em;
-}
-
-/* ========== Gráfico Pequeno ========== */
-.probability-chart {
-  background: linear-gradient(135deg, #16213e 0%, #1a1a2e 100%);
-  border: 1px solid #0f3460;
-  border-radius: 12px;
-  padding: 15px;
-}
-
-.probability-chart h3 {
-  color: #ffd700;
-  margin: 0 0 15px 0;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 1.1em;
-}
-
-.chart-canvas-small {
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
-  background: #1a1a2e;
-}
-
 /* ========== Responsividade Split ========== */
 @media (max-width: 1400px) {
   .blackjack-split-container {
@@ -744,7 +783,7 @@
   
   .game-side {
     border-right: none;
-    border-bottom: 2px solid #0f3460;
+    border-bottom: 2px solid rgba(100, 108, 255, 0.3);
   }
 
   .game-side::after,

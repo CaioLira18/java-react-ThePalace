@@ -63,26 +63,6 @@ const Home = () => {
           </div>
         </a>
       </div>
-
-      <div className="home-footer">
-        <div className="footer-info">
-          <div className="info-card">
-            <i className="fa-solid fa-chart-line"></i>
-            <h3>Análise em Tempo Real</h3>
-            <p>Visualize distribuições empíricas vs teóricas</p>
-          </div>
-          <div className="info-card">
-            <i className="fa-solid fa-graduation-cap"></i>
-            <h3>Aprenda Jogando</h3>
-            <p>Conceitos de estatística na prática</p>
-          </div>
-          <div className="info-card">
-            <i className="fa-solid fa-chart-bar"></i>
-            <h3>Teste Estatístico</h3>
-            <p>Chi-quadrado, p-valor e convergência</p>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };

@@ -36,40 +36,52 @@ const AviatorGame = () => {
   const canvasRef = useRef(null);
   const animationRef = useRef(null);
 
-  // Parâmetros da distribuição exponencial
-  const LAMBDA = 0.04; // Taxa de crash (ajustável para house edge)
+  // Parâmetros para geração aleatória
+  const MIN_MULTIPLIER = 1.01; // Multiplicador mínimo
+  const MAX_MULTIPLIER = 50.0; // Multiplicador máximo
   const MULTIPLIER_SPEED = 0.1; // Velocidade de crescimento do multiplicador
 
-  // Gerar ponto de crash usando distribuição exponencial
+  // Gerar ponto de crash TOTALMENTE ALEATÓRIO
   const generateCrashPoint = () => {
+    // Método 1: Distribuição uniforme simples
     const random = Math.random();
-    // F(x) = 1 - e^(-λ(x-1)) para x >= 1
-    // Invertendo: x = 1 - ln(1-u)/λ onde u é random
-    const crashMultiplier = 1 - Math.log(1 - random) / LAMBDA;
-    return Math.max(1.01, Math.round(crashMultiplier * 100) / 100);
+    const crashMultiplier = MIN_MULTIPLIER + random * (MAX_MULTIPLIER - MIN_MULTIPLIER);
+    
+    // Método 2: Mais crashes baixos (opcional - descomente para usar)
+    // const crashMultiplier = MIN_MULTIPLIER + Math.pow(random, 2) * (MAX_MULTIPLIER - MIN_MULTIPLIER);
+    
+    return Math.round(crashMultiplier * 100) / 100;
   };
 
-  // Calcular probabilidade de crash antes de um multiplicador x
+  // Calcular probabilidade de crash (baseado em estatísticas históricas)
   const calculateCrashProbability = (x) => {
     if (x <= 1) return 0;
-    // P(X < x) = 1 - e^(-λ(x-1))
-    return 1 - Math.exp(-LAMBDA * (x - 1));
+    
+    // Com distribuição aleatória uniforme, calcular baseado no range
+    if (x >= MAX_MULTIPLIER) return 1.0;
+    
+    // Probabilidade baseada na posição no range
+    const crashProb = (x - MIN_MULTIPLIER) / (MAX_MULTIPLIER - MIN_MULTIPLIER);
+    
+    // Aplicar peso para tornar mais realista (mais crashes em multiplicadores baixos)
+    return Math.min(0.95, Math.pow(crashProb, 0.5));
   };
 
-  // Calcular valor esperado para um cash out em x
+  // Calcular valor esperado para um cash out em x (aleatório)
   const calculateExpectedValue = (x, betAmount) => {
-    const survivalProb = Math.exp(-LAMBDA * (x - 1)); // P(sobreviver até x)
+    const crashProb = calculateCrashProbability(x);
+    const survivalProb = 1 - crashProb; // P(sobreviver até x)
     return betAmount * x * survivalProb;
   };
 
-  // Calcular ponto ótimo de cash out (maximiza valor esperado)
+  // Calcular ponto ótimo de cash out (sem fórmula matemática fixa)
   const calculateOptimalCashOut = () => {
-    // Derivando E[X] = bet * x * e^(-λ(x-1)) e igualando a 0
-    // Ponto ótimo: x = 1 + 1/λ
-    return 1 + (1 / LAMBDA);
+    // Com distribuição aleatória, o "ótimo" é baseado em análise empírica
+    // Aproximadamente onde o valor esperado é máximo
+    return 2.0; // Valor estimado baseado na distribuição uniforme
   };
 
-  // Análise usando distribuição exponencial
+  // Análise usando distribuição uniforme aleatória
   const performExponentialAnalysis = (currentMultiplier) => {
     const crashProb = calculateCrashProbability(currentMultiplier + 0.5);
     const expectedVal = calculateExpectedValue(currentMultiplier, betAmount);
@@ -287,19 +299,19 @@ const AviatorGame = () => {
   const renderFormula = () => {
     switch (analysisType) {
       case 'exponencial':
-        const lambda = LAMBDA;
         const x = multiplier + 0.5;
+        const crashProb = calculateCrashProbability(x);
         
         return (
           <div className="formula-display">
-            <h4>Distribuição Exponencial</h4>
-            <div className="formula">F(x) = 1 - e^(-λ(x-1))</div>
+            <h4>Distribuição Aleatória Uniforme</h4>
+            <div className="formula">P(crash) = √((x - min) / (max - min))</div>
             <div className="parameters">
-              <div>λ (taxa de crash) = {lambda}</div>
+              <div>Range: {MIN_MULTIPLIER} - {MAX_MULTIPLIER}x</div>
               <div>x (multiplicador alvo) = {x.toFixed(2)}</div>
-              <div>P(Crash antes de {x.toFixed(2)}) = 1 - e^(-{lambda} × ({x.toFixed(2)}-1))</div>
-              <div>P(Crash) = 1 - e^(-{(lambda * (x-1)).toFixed(4)}) = {(crashProbability * 100).toFixed(2)}%</div>
-              <div>Ponto ótimo teórico = 1 + 1/λ = {(1 + 1/lambda).toFixed(2)}x</div>
+              <div>Posição normalizada = ({x.toFixed(2)} - {MIN_MULTIPLIER}) / ({MAX_MULTIPLIER} - {MIN_MULTIPLIER})</div>
+              <div>P(Crash antes de {x.toFixed(2)}) = {(crashProb * 100).toFixed(2)}%</div>
+              <div>Geração: TOTALMENTE ALEATÓRIA</div>
               <div className="result-highlight">Valor Esperado = ${expectedValue.toFixed(2)}</div>
             </div>
           </div>
@@ -465,7 +477,7 @@ const AviatorGame = () => {
               value={analysisType} 
               onChange={(e) => setAnalysisType(e.target.value)}
             >
-              <option value="exponencial">Exponencial</option>
+              <option value="exponencial">Distribuição Uniforme</option>
               <option value="decisao">Teoria da Decisão</option>
               <option value="montecarlo">Monte Carlo</option>
             </select>

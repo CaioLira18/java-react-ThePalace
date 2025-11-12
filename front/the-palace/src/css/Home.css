@@ -130,6 +130,15 @@
   box-shadow: 0 20px 40px rgba(255, 215, 0, 0.4);
 }
 
+.game-card.aviator {
+  border-color: rgba(0, 242, 254, 0.3);
+}
+
+.game-card.aviator:hover {
+  border-color: #00f2fe;
+  box-shadow: 0 20px 40px rgba(0, 242, 254, 0.4);
+}
+
 /* ========== Game Icon ========== */
 .game-icon {
   font-size: 4em;
@@ -152,6 +161,12 @@
   background: linear-gradient(135deg, #ffd700, #ffed4e);
   box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
   color: #000;
+}
+
+.aviator .game-icon {
+  background: linear-gradient(135deg, #00f2fe, #4facfe);
+  box-shadow: 0 10px 30px rgba(0, 242, 254, 0.3);
+  color: #fff;
 }
 
 .game-card:hover .game-icon {
@@ -188,6 +203,10 @@
 
 .blackjack .game-title {
   color: #ffd700;
+}
+
+.aviator .game-title {
+  color: #00f2fe;
 }
 
 .game-description {

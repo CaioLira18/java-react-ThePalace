@@ -43,6 +43,25 @@ const Home = () => {
             <i className="fa-solid fa-arrow-right"></i>
           </div>
         </a>
+
+        <a href="/aviator" className="game-card aviator">
+          <div className="game-icon">
+            <i className="fa-solid fa-plane"></i>
+          </div>
+          <div className="game-info">
+            <h2 className="game-title">Aviator</h2>
+            <p className="game-description">
+              Distribuição exponencial e teoria da decisão ótima
+            </p>
+            <div className="game-stats">
+              <span className="stat-badge">Multiplicador ∞</span>
+              <span className="stat-badge">Timing ótimo</span>
+            </div>
+          </div>
+          <div className="game-arrow">
+            <i className="fa-solid fa-arrow-right"></i>
+          </div>
+        </a>
       </div>
 
       <div className="home-footer">

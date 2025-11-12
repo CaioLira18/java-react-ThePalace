@@ -5,6 +5,7 @@ import Header from './components/Header'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import BlackjackGame from './pages/BlackjackGame'
+import AviatorGame from './pages/AviatorGame'
 
 
 
@@ -17,6 +18,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/roulettegame" element={<RouletteGame />} />
         <Route path="/blackjack" element={<BlackjackGame />} />
+        <Route path="/aviator" element={<AviatorGame />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 

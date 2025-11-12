@@ -1,0 +1,619 @@
+/* ========== Aviator Game Container ========== */
+.aviator-split-container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  color: #fff;
+  font-family: system-ui, -apple-system, sans-serif;
+  background: linear-gradient(135deg, #0f1419 0%, #1a1a2e 50%, #16213e 100%);
+}
+
+.game-side {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  border-right: 2px solid #0f3460;
+  position: relative;
+}
+
+.analysis-side {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  background: linear-gradient(135deg, #0f3460 0%, #1a1a2e 100%);
+}
+
+/* ========== Stats Grid ========== */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.stat-card {
+  padding: 20px;
+  border-radius: 15px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.stat-card.purple {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.stat-card.blue {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.stat-card.green {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+.stat-card.gold {
+  background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+  color: #1a1a1a;
+}
+
+.stat-value {
+  font-size: 1.8em;
+  font-weight: bold;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.stat-label {
+  opacity: 0.9;
+  font-size: 0.9em;
+  font-weight: 500;
+}
+
+/* ========== Aviator Display ========== */
+.aviator-display {
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  border-radius: 20px;
+  padding: 40px;
+  margin-bottom: 25px;
+  text-align: center;
+  position: relative;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid rgba(255, 215, 0, 0.3);
+}
+
+.multiplier-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.multiplier-value {
+  font-size: 4em;
+  font-weight: bold;
+  color: #ffd700;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
+  to { text-shadow: 0 0 30px rgba(255, 215, 0, 0.8), 0 0 40px rgba(255, 215, 0, 0.3); }
+}
+
+.plane-icon {
+  color: #fff;
+  transition: all 0.3s ease;
+}
+
+.plane-icon.flying {
+  animation: fly 1s ease-in-out infinite alternate;
+  color: #ffd700;
+}
+
+@keyframes fly {
+  from { transform: translateY(0) rotate(0deg); }
+  to { transform: translateY(-10px) rotate(15deg); }
+}
+
+.crash-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2em;
+  font-weight: bold;
+  color: #ff4757;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 20px 30px;
+  border-radius: 15px;
+  border: 2px solid #ff4757;
+  animation: crash 0.5s ease-out;
+}
+
+@keyframes crash {
+  from { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+  to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+.cashout-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2em;
+  font-weight: bold;
+  color: #2ed573;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 20px 30px;
+  border-radius: 15px;
+  border: 2px solid #2ed573;
+  animation: cashout 0.5s ease-out;
+}
+
+@keyframes cashout {
+  from { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+  to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+/* ========== Controls ========== */
+.controls-area {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.betting-controls,
+.flying-controls,
+.end-controls {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.bet-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.1em;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 12px 20px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.bet-input label {
+  color: #ffd700;
+  font-weight: 500;
+}
+
+.bet-input input {
+  width: 100px;
+  padding: 8px 12px;
+  border-radius: 5px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.3);
+  color: #fff;
+  font-size: 1em;
+  text-align: center;
+  font-weight: bold;
+}
+
+.bet-input input:focus {
+  outline: none;
+  border-color: #ffd700;
+}
+
+.action-btn {
+  padding: 15px 30px;
+  border-radius: 10px;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1.1em;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.action-btn.start {
+  background: linear-gradient(135deg, #2ed573, #17a2b8);
+  flex: 1;
+  justify-content: center;
+  min-width: 200px;
+}
+
+.action-btn.cashout {
+  background: linear-gradient(135deg, #ffd700, #ffb347);
+  color: #1a1a1a;
+  flex: 1;
+  justify-content: center;
+  min-width: 250px;
+  animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.action-btn.new-round {
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+}
+
+.action-btn.reset {
+  background: linear-gradient(135deg, #868e96, #495057);
+  align-self: center;
+}
+
+/* ========== Flight History ========== */
+.flight-history {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.flight-history h3 {
+  margin: 0 0 15px 0;
+  color: #ffd700;
+  font-size: 1.2em;
+}
+
+.history-dots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.history-dot {
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 0.85em;
+  font-weight: bold;
+  min-width: 45px;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.history-dot:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+.history-dot.win {
+  background: linear-gradient(135deg, #2ed573, #17a2b8);
+  color: #fff;
+}
+
+.history-dot.loss {
+  background: linear-gradient(135deg, #ff4757, #ff3742);
+  color: #fff;
+}
+
+/* ========== Analysis Side ========== */
+.analysis-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #0f3460;
+}
+
+.analysis-header h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  color: #ffd700;
+  font-size: 1.5em;
+}
+
+.analysis-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.analysis-controls label {
+  color: #aaa;
+  font-weight: 500;
+}
+
+.analysis-controls select {
+  background: #1a1a2e;
+  color: #fff;
+  border: 1px solid #0f3460;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 14px;
+}
+
+.analysis-controls select:focus {
+  outline: none;
+  border-color: #ffd700;
+}
+
+/* ========== Formula Display ========== */
+.formula-display {
+  background: linear-gradient(135deg, #16213e 0%, #1a1a2e 100%);
+  border: 1px solid #0f3460;
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 25px;
+}
+
+.formula-display h4 {
+  color: #ffd700;
+  margin: 0 0 15px 0;
+  font-size: 1.2em;
+}
+
+.formula {
+  font-family: 'Courier New', monospace;
+  font-size: 1.1em;
+  background: #0f3460;
+  padding: 12px 15px;
+  border-radius: 8px;
+  text-align: center;
+  color: #2ed573;
+  margin-bottom: 15px;
+  border-left: 4px solid #ffd700;
+  font-weight: bold;
+}
+
+.parameters {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.parameters div {
+  padding: 8px 12px;
+  background: rgba(15, 52, 96, 0.3);
+  border-radius: 5px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9em;
+  color: #ddd;
+}
+
+.parameters .result-highlight {
+  background: rgba(255, 215, 0, 0.2);
+  border-left: 3px solid #ffd700;
+  color: #ffd700;
+  font-weight: bold;
+  font-size: 1em;
+}
+
+/* ========== Probability Results ========== */
+.probability-results {
+  margin-bottom: 25px;
+}
+
+.probability-results h3 {
+  color: #ffd700;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.prob-card {
+  background: linear-gradient(135deg, #16213e 0%, #1a1a2e 100%);
+  border: 1px solid #0f3460;
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 15px;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.prob-card:hover {
+  transform: translateX(5px);
+  border-color: #ffd700;
+}
+
+.prob-label {
+  color: #aaa;
+  font-size: 0.9em;
+  margin-bottom: 5px;
+}
+
+.prob-value {
+  font-size: 1.8em;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.prob-value.crash {
+  color: #ff4757;
+}
+
+.prob-value.expected {
+  color: #4facfe;
+}
+
+.prob-value.optimal {
+  color: #2ed573;
+}
+
+.prob-value.risk {
+  text-transform: uppercase;
+  font-size: 1.4em;
+}
+
+.prob-value.risk.baixo {
+  color: #2ed573;
+}
+
+.prob-value.risk.médio,
+.prob-value.risk.favorável {
+  color: #ffd700;
+}
+
+.prob-value.risk.alto,
+.prob-value.risk.desfavorável {
+  color: #ff4757;
+}
+
+.prob-desc {
+  color: #888;
+  font-size: 0.8em;
+}
+
+/* ========== Statistics Summary ========== */
+.statistics-summary {
+  background: linear-gradient(135deg, #16213e 0%, #1a1a2e 100%);
+  border: 1px solid #0f3460;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.statistics-summary h3 {
+  color: #ffd700;
+  margin: 0 0 15px 0;
+}
+
+.stats-row {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 12px 15px;
+  border-radius: 8px;
+}
+
+.stat-label-detail {
+  color: #aaa;
+  font-size: 0.9em;
+}
+
+.stat-value-detail {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.stat-value-detail.profit {
+  color: #2ed573;
+}
+
+.stat-value-detail.loss {
+  color: #ff4757;
+}
+
+/* ========== Responsividade ========== */
+@media (max-width: 1400px) {
+  .aviator-split-container {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+  }
+  
+  .game-side,
+  .analysis-side {
+    flex: none;
+    min-height: 50vh;
+  }
+  
+  .game-side {
+    border-right: none;
+    border-bottom: 2px solid #0f3460;
+  }
+}
+
+@media (max-width: 768px) {
+  .aviator-split-container {
+    padding: 0;
+  }
+
+  .game-side,
+  .analysis-side {
+    padding: 15px;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .multiplier-value {
+    font-size: 3em;
+  }
+
+  .analysis-header {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+  
+  .formula {
+    font-size: 1em;
+  }
+  
+  .parameters div {
+    font-size: 0.8em;
+  }
+  
+  .prob-value {
+    font-size: 1.5em;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .betting-controls,
+  .flying-controls,
+  .end-controls {
+    flex-direction: column;
+  }
+
+  .action-btn {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .multiplier-value {
+    font-size: 2.5em;
+  }
+  
+  .formula {
+    font-size: 0.9em;
+  }
+  
+  .parameters div {
+    font-size: 0.75em;
+  }
+}

@@ -470,6 +470,7 @@ const AviatorGame = () => {
       {/* LADO DIREITO - ANÁLISE ESTATÍSTICA */}
       <div className="analysis-side">
         <div className="analysis-header">
+          <div className="rawHeader">
           <h2><Calculator size={24} /> Análise Estatística</h2>
           <div className="analysis-controls">
             <label>Modelo:</label>
@@ -481,6 +482,7 @@ const AviatorGame = () => {
               <option value="decisao">Teoria da Decisão</option>
               <option value="montecarlo">Monte Carlo</option>
             </select>
+            </div>
           </div>
         </div>
 

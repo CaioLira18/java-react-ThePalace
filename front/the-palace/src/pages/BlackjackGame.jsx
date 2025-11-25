@@ -779,6 +779,7 @@ const BlackjackGame = () => {
       {/* LADO DIREITO - PROBABILIDADES */}
       <div className="probability-side">
         <div className="probability-header">
+          <div className="rawHeader">
           <h2><Calculator size={24} /> Análise Probabilística</h2>
           <div className="probability-controls">
             <label>Modelo:</label>
@@ -790,6 +791,7 @@ const BlackjackGame = () => {
               <option value="continua">Contínua (Normal)</option>
               <option value="hipergeometrica">Hipergeométrica</option>
             </select>
+          </div>
           </div>
         </div>
 
